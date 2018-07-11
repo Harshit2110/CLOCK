@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+    <title>CLOCK</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-offset-4 col-lg-4">
+            <div class="clock">
+                <div class="clock-structure">
+                    <div class="num num1"><div>1</div></div>
+                    <div class="num num2"><div>2</div></div>
+                    <div class="num num3"><div>3</div></div>
+                    <div class="num num4"><div>4</div></div>
+                    <div class="num num5"><div>5</div></div>
+                    <div class="num num6"><div>6</div></div>
+                    <div class="num num7"><div>7</div></div>
+                    <div class="num num8"><div>8</div></div>
+                    <div class="num num9"><div>9</div></div>
+                    <div class="num num10"><div>10</div></div>
+                    <div class="num num11"><div>11</div></div>
+                    <div class="num num12"><div>12</div></div>
+                    <div class="hour hand "></div>
+                    <div class="minute hand "></div>
+                    <div class="second hand "></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    class Clock {
+        // clock init
+        constructor() {
+            this.hourHand   = document.querySelector('.hour.hand');
+            this.minuteHand = document.querySelector('.minute.hand');
+            this.secondHand = document.querySelector('.second.hand');
+            this.timer();
+
+            setInterval(() => this.timer(), 1000);
+        }
+
+        // timer of the clock
+        timer() {
+            this.sethandRotation('hour');
+            this.sethandRotation('minute');
+            this.sethandRotation('second');
+        }
+
+        // maintain rotation
+        sethandRotation(hand) {
+            let date = new Date(), hours, minutes, seconds, percentage, degree;
+
+            switch (hand) {
+                case 'hour':
+                    hours       = date.getHours();
+                    hand        = this.hourHand;
+                    percentage  = this.numberToPercentage(hours, 12);
+                    break;
+                case 'minute':
+                    minutes     = date.getMinutes();
+                    hand        = this.minuteHand;
+                    percentage  = this.numberToPercentage(minutes, 60);
+                    break;
+                case 'second':
+                    seconds     = date.getSeconds();
+                    hand        = this.secondHand;
+                    percentage  = this.numberToPercentage(seconds, 60);
+                    break;
+            }
+
+            degree                = this.percentageToDegree(percentage);
+            hand.style.transform  = `rotate(${degree}deg) translate(-50%, -50%)`;
+        }
+
+
+        numberToPercentage(number = 0, max = 60) {
+            return (number / max) * 100;
+        }
+
+        percentageToDegree(percentage = 0) {
+            return (percentage * 360) / 100;
+        }
+
+    }
+    let clock = new Clock();
+</script>
+</body>
+</html>
